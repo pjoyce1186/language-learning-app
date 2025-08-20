@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Language Learning</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #1D3557 0%, #06B6D4 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Login Screen */
+        .login-screen {
+            background: #FAFAFA;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            text-align: center;
+            margin: auto;
+            max-width: 400px;
+        }
+
+        .login-screen h1 {
+            color: #1D3557;
+            margin-bottom: 30px;
+            font-size: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #1D3557;
+            font-weight: 600;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #E5E7EB;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #06B6D4;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+        }
+
+        .btn-primary {
+            background: #F97316;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #ea580c;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #E5E7EB;
+            color: #1D3557;
+        }
+
+        .btn-secondary:hover {
+            background: #d1d5db;
+        }
+
+        /* Main App */
+        .header {
+            background: #FAFAFA;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            color: #1D3557;
+            font-size: 1.8rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logout-btn {
+            background: #F97316;
+            color: white;
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Language Selection */
+        .language-selector {
+            background: #FAFAFA;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .language-flags {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 20px;
+        }
+
+        .flag-option {
+            cursor: pointer;
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
+        }
+
+        .flag-option:hover {
+            transform: translateY(-5px);
+            border-color: #06B6D4;
+        }
+
+        .flag-option.selected {
+            border-color: #F97316;
+            background: #FFF7ED;
+        }
+
+        .flag {
+            font-size: 4rem;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .flag-label {
+            font-weight: 600;
+            color: #1D3557;
+        }
+
+        /* Topic Selection */
+        .topic-selector {
+            background: #FAFAFA;
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .topics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .topic-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .topic-card:hover {
+            transform: translateY(-3px);
+            border-color: #06B6D4;
+        }
+
+        .topic-card.selected {
+            border-color: #F97316;
+            background: #FFF7ED;
+        }
+
+        .topic-icon {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        /* Session Settings */
+        .session-settings {
+            background: #FAFAFA;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .settings-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .number-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .number-btn {
+            padding: 8px 16px;
+            border: 2px solid #E5E7EB;
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .number-btn.selected {
+            background: #F97316;
+            color: white;
+            border-color: #F97316;
+        }
+
+        /* Progress Display */
+        .progress-section {
+            background: #FAFAFA;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .cefr-badge {
+            background: #A7C957;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        /* Flashcard */
+        .flashcard {
+            background: white;
+            border-radius: 15px;
+            padding: 60px 40px;
+            margin: 30px 0;
+            min-height: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 3px solid #E5E7EB;
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px);
+            border-color: #06B6D4;
+        }
+
+        .flashcard.flipped {
+            background: #F0F9FF;
+            border-color: #06B6D4;
+        }
+
+        .card-content {
+            font-size: 2rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card-context {
+            font-size: 1rem;
+            color: #666;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .card-hint {
+            font-size: 0.9rem;
+            color: #999;
+            text-align: center;
+        }
+
+        /* Action Buttons */
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .btn-correct {
+            background: #A7C957;
+            color: white;
+        }
+
+        .btn-wrong {
+            background: #FF8C82;
+            color: white;
+        }
+
+        .btn-next {
+            background: #06B6D4;
+            color: white;
+        }
+
+        /* Quiz Mode */
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .quiz-option {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #E5E7EB;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            border-color: #06B6D4;
+        }
+
+        .quiz-option.selected {
+            background: #F0F9FF;
+            border-color: #06B6D4;
+        }
+
+        .quiz-option.correct {
+            background: #F0FDF4;
+            border-color: #A7C957;
+        }
+
+        .quiz-option.incorrect {
+            background: #FEF2F2;
+            border-color: #FF8C82;
+        }
+
+        /* Results */
+        .results {
+            background: #FAFAFA;
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .score-display {
+            font-size: 2rem;
+            margin: 20px 0;
+            color: #1D3557;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .language-flags {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .quiz-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Main App -->
+        <div id="mainApp">
+            <div class="header">
+                <h1>🌍 Travel Language Learning</h1>
+                <div class="user-info">
+                    <span>Ready to learn!</span>
+                </div>
+            </div>
+
+            <!-- Language Selection -->
+            <div id="languageSelection" class="language-selector">
+                <h2>Choose your language to learn</h2>
+                <div class="language-flags">
+                    <div class="flag-option" onclick="selectLanguage('spanish')">
+                        <span class="flag">🇪🇸</span>
+                        <div class="flag-label">Spanish</div>
+                    </div>
+                    <div class="flag-option" onclick="selectLanguage('french')">
+                        <span class="flag">🇫🇷</span>
+                        <div class="flag-label">French</div>
+                    </div>
+                    <div class="flag-option" onclick="selectLanguage('italian')">
+                        <span class="flag">🇮🇹</span>
+                        <div class="flag-label">Italian</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Learning Interface -->
+            <div id="learningInterface" class="hidden">
+                <!-- Progress Display -->
+                <div class="progress-section">
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <span class="cefr-badge" id="cefrLevel">A1</span>
+                            <span id="selectedLanguage" style="margin-left: 10px; font-weight: 600;"></span>
+                        </div>
+                        <button class="btn btn-secondary" onclick="showLanguageSelection()">Change Language</button>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <span id="overallProgress">Overall Progress: 0% | Session: 0/0</span>
+                    </div>
+                </div>
+
+                <!-- Topic Selection -->
+                <div id="topicSelection" class="topic-selector">
+                    <h3>Choose your focus area</h3>
+                    <div class="topics">
+                        <div class="topic-card" onclick="selectTopic('restaurant')">
+                            <div class="topic-icon">🍽️</div>
+                            <div>Restaurant</div>
+                        </div>
+                        <div class="topic-card" onclick="selectTopic('transportation')">
+                            <div class="topic-icon">🚊</div>
+                            <div>Transportation</div>
+                        </div>
+                        <div class="topic-card" onclick="selectTopic('social')">
+                            <div class="topic-icon">👥</div>
+                            <div>Social</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Session Settings -->
+                <div id="sessionSettings" class="session-settings hidden">
+                    <div class="settings-row">
+                        <span style="font-weight: 600;">Activity Type:</span>
+                        <div class="number-selector">
+                            <button class="number-btn selected" onclick="selectActivity('flashcard')">Flashcards</button>
+                            <button class="number-btn" onclick="selectActivity('quiz')">Quiz</button>
+                        </div>
+                    </div>
+                    <div class="settings-row">
+                        <span style="font-weight: 600;">Number of items:</span>
+                        <div class="number-selector">
+                            <button class="number-btn" onclick="selectNumber(10)">10</button>
+                            <button class="number-btn selected" onclick="selectNumber(15)">15</button>
+                            <button class="number-btn" onclick="selectNumber(20)">20</button>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 20px;">
+                        <button class="btn btn-primary" onclick="startSession()">Start Learning</button>
+                    </div>
+                </div>
+
+                <!-- Learning Session -->
+                <div id="learningSession" class="hidden">
+                    <div id="flashcardMode">
+                        <div class="flashcard" id="flashcard" onclick="flipCard()">
+                            <div class="card-content" id="cardContent"></div>
+                            <div class="card-context" id="cardContext"></div>
+                            <div class="card-hint" id="cardHint">Click to see translation</div>
+                        </div>
+                        <div class="action-buttons" id="flashcardButtons" style="display: none;">
+                            <button class="btn btn-correct" onclick="markCorrect()">✓ I knew this</button>
+                            <button class="btn btn-wrong" onclick="markWrong()">✗ I didn't know</button>
+                            <button class="btn btn-next" onclick="nextCard()">Next →</button>
+                        </div>
+                    </div>
+
+                    <div id="quizMode" class="hidden">
+                        <div style="background: white; padding: 30px; border-radius: 15px;">
+                            <div class="card-content" id="quizQuestion"></div>
+                            <div class="quiz-options" id="quizOptions"></div>
+                            <div style="text-align: center; margin-top: 20px;">
+                                <button class="btn btn-primary" id="quizNextBtn" onclick="nextQuizQuestion()" style="display: none;">Next Question</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results -->
+                <div id="results" class="results hidden">
+                    <h2>Session Complete!</h2>
+                    <div class="score-display" id="sessionScore"></div>
+                    <div id="levelUpMessage" class="hidden" style="color: #A7C957; font-weight: 600; margin: 20px 0;">
+                        🎉 Congratulations! You've advanced to the next level!
+                    </div>
+                    <button class="btn btn-primary" onclick="newSession()">New Session</button>
+                    <button class="btn btn-secondary" onclick="showTopicSelection()">Change Topic</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Global state
+        let selectedLanguage = null;
+        let selectedTopic = null;
+        let activityType = 'flashcard';
+        let sessionSize = 15;
+        let currentSession = [];
+        let currentIndex = 0;
+        let sessionScore = { correct: 0, wrong: 0 };
+        let isFlipped = false;
+        let selectedQuizOption = null;
+        let userProgress = {
+            spanish: { level: 'A1', progress: 0 },
+            french: { level: 'A1', progress: 0 },
+            italian: { level: 'A1', progress: 0 }
+        };
+
+        // Initialize app on page load
+        window.onload = function() {
+            showLanguageSelection();
+        };
+
+        // Language content database
+        const contentDatabase = {
+            spanish: {
+                restaurant: {
+                    A1: [
+                        { spanish: "Una mesa para dos", english: "A table for two", context: "Arriving at restaurant" },
+                        { spanish: "La cuenta, por favor", english: "The bill, please", context: "Paying" },
+                        { spanish: "¿Qué recomienda?", english: "What do you recommend?", context: "Asking for suggestions" },
+                        { spanish: "Soy vegetariano", english: "I am vegetarian", context: "Dietary preferences" },
+                        { spanish: "Agua, por favor", english: "Water, please", context: "Ordering drinks" }
+                    ],
+                    A2: [
+                        { spanish: "¿Tienen menú en inglés?", english: "Do you have a menu in English?", context: "Requesting assistance" },
+                        { spanish: "Está muy delicioso", english: "It's very delicious", context: "Complimenting food" },
+                        { spanish: "¿Cuál es el plato del día?", english: "What is the dish of the day?", context: "Daily specials" },
+                        { spanish: "Sin sal, por favor", english: "Without salt, please", context: "Special requests" },
+                        { spanish: "¿Aceptan tarjetas de crédito?", english: "Do you accept credit cards?", context: "Payment method" }
+                    ]
+                },
+                transportation: {
+                    A1: [
+                        { spanish: "¿Dónde está la estación?", english: "Where is the station?", context: "Finding locations" },
+                        { spanish: "Un billete a Madrid", english: "A ticket to Madrid", context: "Buying tickets" },
+                        { spanish: "¿Cuánto cuesta?", english: "How much does it cost?", context: "Asking price" },
+                        { spanish: "¿A qué hora sale?", english: "What time does it leave?", context: "Departure times" },
+                        { spanish: "Taxi, por favor", english: "Taxi, please", context: "Calling transport" }
+                    ],
+                    A2: [
+                        { spanish: "¿Hay descuento para estudiantes?", english: "Is there a student discount?", context: "Discounts" },
+                        { spanish: "¿En qué andén?", english: "On which platform?", context: "Train information" },
+                        { spanish: "¿Cuánto tiempo tarda?", english: "How long does it take?", context: "Journey duration" },
+                        { spanish: "¿Hay conexión directa?", english: "Is there a direct connection?", context: "Route planning" },
+                        { spanish: "He perdido mi equipaje", english: "I have lost my luggage", context: "Problems" }
+                    ]
+                },
+                social: {
+                    A1: [
+                        { spanish: "¿Cómo te llamas?", english: "What's your name?", context: "Introductions" },
+                        { spanish: "Mucho gusto", english: "Nice to meet you", context: "Polite responses" },
+                        { spanish: "¿De dónde eres?", english: "Where are you from?", context: "Getting to know someone" },
+                        { spanish: "Habla más despacio", english: "Speak more slowly", context: "Communication help" },
+                        { spanish: "No hablo español muy bien", english: "I don't speak Spanish very well", context: "Language barriers" }
+                    ],
+                    A2: [
+                        { spanish: "¿Qué planes tienes?", english: "What plans do you have?", context: "Making plans" },
+                        { spanish: "¿Te gusta la ciudad?", english: "Do you like the city?", context: "Opinions" },
+                        { spanish: "¿Puedes ayudarme?", english: "Can you help me?", context: "Asking for help" },
+                        { spanish: "¿Dónde vives?", english: "Where do you live?", context: "Personal information" },
+                        { spanish: "¿Quieres tomar algo?", english: "Do you want to have a drink?", context: "Social invitations" }
+                    ]
+                }
+            },
+            french: {
+                restaurant: {
+                    A1: [
+                        { french: "Une table pour deux", english: "A table for two", context: "Arriving at restaurant" },
+                        { french: "L'addition, s'il vous plaît", english: "The bill, please", context: "Paying" },
+                        { french: "Que recommandez-vous?", english: "What do you recommend?", context: "Asking for suggestions" },
+                        { french: "Je suis végétarien", english: "I am vegetarian", context: "Dietary preferences" },
+                        { french: "De l'eau, s'il vous plaît", english: "Water, please", context: "Ordering drinks" }
+                    ],
+                    A2: [
+                        { french: "Avez-vous un menu en anglais?", english: "Do you have a menu in English?", context: "Requesting assistance" },
+                        { french: "C'est très délicieux", english: "It's very delicious", context: "Complimenting food" },
+                        { french: "Quel est le plat du jour?", english: "What is the dish of the day?", context: "Daily specials" },
+                        { french: "Sans sel, s'il vous plaît", english: "Without salt, please", context: "Special requests" },
+                        { french: "Acceptez-vous les cartes de crédit?", english: "Do you accept credit cards?", context: "Payment method" }
+                    ]
+                },
+                transportation: {
+                    A1: [
+                        { french: "Où est la gare?", english: "Where is the station?", context: "Finding locations" },
+                        { french: "Un billet pour Paris", english: "A ticket to Paris", context: "Buying tickets" },
+                        { french: "Combien ça coûte?", english: "How much does it cost?", context: "Asking price" },
+                        { french: "À quelle heure part-il?", english: "What time does it leave?", context: "Departure times" },
+                        { french: "Taxi, s'il vous plaît", english: "Taxi, please", context: "Calling transport" }
+                    ],
+                    A2: [
+                        { french: "Y a-t-il une réduction étudiante?", english: "Is there a student discount?", context: "Discounts" },
+                        { french: "Sur quel quai?", english: "On which platform?", context: "Train information" },
+                        { french: "Combien de temps ça prend?", english: "How long does it take?", context: "Journey duration" },
+                        { french: "Y a-t-il une connexion directe?", english: "Is there a direct connection?", context: "Route planning" },
+                        { french: "J'ai perdu mes bagages", english: "I have lost my luggage", context: "Problems" }
+                    ]
+                },
+                social: {
+                    A1: [
+                        { french: "Comment vous appelez-vous?", english: "What's your name?", context: "Introductions" },
+                        { french: "Enchanté", english: "Nice to meet you", context: "Polite responses" },
+                        { french: "D'où venez-vous?", english: "Where are you from?", context: "Getting to know someone" },
+                        { french: "Parlez plus lentement", english: "Speak more slowly", context: "Communication help" },
+                        { french: "Je ne parle pas très bien français", english: "I don't speak French very well", context: "Language barriers" }
+                    ],
+                    A2: [
+                        { french: "Quels sont vos projets?", english: "What are your plans?", context: "Making plans" },
+                        { french: "Aimez-vous la ville?", english: "Do you like the city?", context: "Opinions" },
+                        { french: "Pouvez-vous m'aider?", english: "Can you help me?", context: "Asking for help" },
+                        { french: "Où habitez-vous?", english: "Where do you live?", context: "Personal information" },
+                        { french: "Voulez-vous prendre un verre?", english: "Do you want to have a drink?", context: "Social invitations" }
+                    ]
+                }
+            },
+            italian: {
+                restaurant: {
+                    A1: [
+                        { italian: "Un tavolo per due", english: "A table for two", context: "Arriving at restaurant" },
+                        { italian: "Il conto, per favore", english: "The bill, please", context: "Paying" },
+                        { italian: "Cosa raccomanda?", english: "What do you recommend?", context: "Asking for suggestions" },
+                        { italian: "Sono vegetariano", english: "I am vegetarian", context: "Dietary preferences" },
+                        { italian: "Acqua, per favore", english: "Water, please", context: "Ordering drinks" }
+                    ],
+                    A2: [
+                        { italian: "Avete un menu in inglese?", english: "Do you have a menu in English?", context: "Requesting assistance" },
+                        { italian: "È molto delizioso", english: "It's very delicious", context: "Complimenting food" },
+                        { italian: "Qual è il piatto del giorno?", english: "What is the dish of the day?", context: "Daily specials" },
+                        { italian: "Senza sale, per favore", english: "Without salt, please", context: "Special requests" },
+                        { italian: "Accettate carte di credito?", english: "Do you accept credit cards?", context: "Payment method" }
+                    ]
+                },
+                transportation: {
+                    A1: [
+                        { italian: "Dove è la stazione?", english: "Where is the station?", context: "Finding locations" },
+                        { italian: "Un biglietto per Roma", english: "A ticket to Rome", context: "Buying tickets" },
+                        { italian: "Quanto costa?", english: "How much does it cost?", context: "Asking price" },
+                        { italian: "A che ora parte?", english: "What time does it leave?", context: "Departure times" },
+                        { italian: "Taxi, per favore", english: "Taxi, please", context: "Calling transport" }
+                    ],
+                    A2: [
+                        { italian: "C'è uno sconto per studenti?", english: "Is there a student discount?", context: "Discounts" },
+                        { italian: "Su quale binario?", english: "On which platform?", context: "Train information" },
+                        { italian: "Quanto tempo ci vuole?", english: "How long does it take?", context: "Journey duration" },
+                        { italian: "C'è una connessione diretta?", english: "Is there a direct connection?", context: "Route planning" },
+                        { italian: "Ho perso i miei bagagli", english: "I have lost my luggage", context: "Problems" }
+                    ]
+                },
+                social: {
+                    A1: [
+                        { italian: "Come ti chiami?", english: "What's your name?", context: "Introductions" },
+                        { italian: "Piacere di conoscerti", english: "Nice to meet you", context: "Polite responses" },
+                        { italian: "Di dove sei?", english: "Where are you from?", context: "Getting to know someone" },
+                        { italian: "Parla più lentamente", english: "Speak more slowly", context: "Communication help" },
+                        { italian: "Non parlo molto bene italiano", english: "I don't speak Italian very well", context: "Language barriers" }
+                    ],
+                    A2: [
+                        { italian: "Che piani hai?", english: "What plans do you have?", context: "Making plans" },
+                        { italian: "Ti piace la città?", english: "Do you like the city?", context: "Opinions" },
+                        { italian: "Puoi aiutarmi?", english: "Can you help me?", context: "Asking for help" },
+                        { italian: "Dove vivi?", english: "Where do you live?", context: "Personal information" },
+                        { italian: "Vuoi prendere qualcosa da bere?", english: "Do you want to have a drink?", context: "Social invitations" }
+                    ]
+                }
+            }
+        };
+
+        // Initialize app on page load
+        window.onload = function() {
+            showLanguageSelection();
+        };
+
+        function showLanguageSelection() {
+            hideAllSections();
+            document.getElementById('languageSelection').classList.remove('hidden');
+        }
+
+        function selectLanguage(language) {
+            selectedLanguage = language;
+            
+            // Update visual selection
+            document.querySelectorAll('.flag-option').forEach(flag => {
+                flag.classList.remove('selected');
+            });
+            event.target.closest('.flag-option').classList.add('selected');
+            
+            // Update progress display
+            document.getElementById('selectedLanguage').textContent = language.charAt(0).toUpperCase() + language.slice(1);
+            document.getElementById('cefrLevel').textContent = userProgress[language].level;
+            
+            setTimeout(() => {
+                hideAllSections();
+                document.getElementById('learningInterface').classList.remove('hidden');
+                showTopicSelection();
+            }, 500);
+        }
+
+        function showTopicSelection() {
+            document.getElementById('topicSelection').classList.remove('hidden');
+            document.getElementById('sessionSettings').classList.add('hidden');
+            document.getElementById('learningSession').classList.add('hidden');
+            document.getElementById('results').classList.add('hidden');
+        }
+
+        function selectTopic(topic) {
+            selectedTopic = topic;
+            
+            // Update visual selection
+            document.querySelectorAll('.topic-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.target.closest('.topic-card').classList.add('selected');
+            
+            setTimeout(() => {
+                document.getElementById('sessionSettings').classList.remove('hidden');
+            }, 300);
+        }
+
+        function selectActivity(activity) {
+            activityType = activity;
+            
+            // Update visual selection
+            document.querySelectorAll('.number-selector .number-btn').forEach(btn => {
+                if (btn.textContent === 'Flashcards' || btn.textContent === 'Quiz') {
+                    btn.classList.remove('selected');
+                }
+            });
+            event.target.classList.add('selected');
+        }
+
+        function selectNumber(number) {
+            sessionSize = number;
+            
+            // Update visual selection
+            document.querySelectorAll('.number-selector .number-btn').forEach(btn => {
+                if (btn.textContent === '10' || btn.textContent === '15' || btn.textContent === '20') {
+                    btn.classList.remove('selected');
+                }
+            });
+            event.target.classList.add('selected');
+        }
+
+        function startSession() {
+            prepareSession();
+            
+            document.getElementById('topicSelection').classList.add('hidden');
+            document.getElementById('sessionSettings').classList.add('hidden');
+            document.getElementById('learningSession').classList.remove('hidden');
+            
+            if (activityType === 'flashcard') {
+                document.getElementById('flashcardMode').classList.remove('hidden');
+                document.getElementById('quizMode').classList.add('hidden');
+                showFlashcard();
+            } else {
+                document.getElementById('flashcardMode').classList.add('hidden');
+                document.getElementById('quizMode').classList.remove('hidden');
+                showQuizQuestion();
+            }
+        }
+
+        function prepareSession() {
+            currentIndex = 0;
+            sessionScore = { correct: 0, wrong: 0 };
+            
+            // Get content for current language, topic, and user's level
+            const currentLevel = userProgress[selectedLanguage].level;
+            const content = contentDatabase[selectedLanguage][selectedTopic];
+            
+            // Mix content from current level and previous levels for retention
+            let availableContent = [...content[currentLevel]];
+            if (currentLevel === 'A2') {
+                availableContent = [...availableContent, ...content['A1']];
+            }
+            
+            // Shuffle and select session size
+            shuffleArray(availableContent);
+            currentSession = availableContent.slice(0, sessionSize);
+            
+            updateProgress();
+        }
+
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        // Flashcard functions
+        function showFlashcard() {
+            if (currentIndex >= currentSession.length) {
+                showResults();
+                return;
+            }
+            
+            const card = currentSession[currentIndex];
+            const foreignText = card[selectedLanguage] || card.spanish || card.french || card.italian;
+            
+            document.getElementById('cardContent').textContent = foreignText;
+            document.getElementById('cardContext').textContent = card.context;
+            document.getElementById('cardHint').textContent = 'Click to see translation';
+            document.getElementById('flashcard').classList.remove('flipped');
+            document.getElementById('flashcardButtons').style.display = 'none';
+            isFlipped = false;
+            
+            updateProgress();
+        }
+
+        function flipCard() {
+            if (isFlipped) return;
+            
+            const card = currentSession[currentIndex];
+            document.getElementById('cardContent').textContent = card.english;
+            document.getElementById('cardHint').textContent = 'How did you do?';
+            document.getElementById('flashcard').classList.add('flipped');
+            document.getElementById('flashcardButtons').style.display = 'flex';
+            isFlipped = true;
+        }
+
+        function markCorrect() {
+            sessionScore.correct++;
+            updateProgress();
+        }
+
+        function markWrong() {
+            sessionScore.wrong++;
+            updateProgress();
+        }
+
+        function nextCard() {
+            currentIndex++;
+            showFlashcard();
+        }
+
+        // Quiz functions
+        function showQuizQuestion() {
+            if (currentIndex >= currentSession.length) {
+                showResults();
+                return;
+            }
+            
+            const card = currentSession[currentIndex];
+            const foreignText = card[selectedLanguage] || card.spanish || card.french || card.italian;
+            
+            document.getElementById('quizQuestion').textContent = `What does "${foreignText}" mean?`;
+            
+            // Create quiz options (correct answer + 3 random wrong answers)
+            const correctAnswer = card.english;
+            const wrongAnswers = getRandomWrongAnswers(correctAnswer);
+            const options = [correctAnswer, ...wrongAnswers];
+            shuffleArray(options);
+            
+            const optionsContainer = document.getElementById('quizOptions');
+            optionsContainer.innerHTML = '';
+            
+            options.forEach(option => {
+                const optionDiv = document.createElement('div');
+                optionDiv.className = 'quiz-option';
+                optionDiv.textContent = option;
+                optionDiv.onclick = () => selectQuizOption(optionDiv, option === correctAnswer);
+                optionsContainer.appendChild(optionDiv);
+            });
+            
+            document.getElementById('quizNextBtn').style.display = 'none';
+            selectedQuizOption = null;
+            updateProgress();
+        }
+
+        function getRandomWrongAnswers(correctAnswer) {
+            const allAnswers = [];
+            Object.values(contentDatabase[selectedLanguage]).forEach(topic => {
+                Object.values(topic).forEach(level => {
+                    level.forEach(item => {
+                        if (item.english !== correctAnswer) {
+                            allAnswers.push(item.english);
+                        }
+                    });
+                });
+            });
+            
+            shuffleArray(allAnswers);
+            return allAnswers.slice(0, 3);
+        }
+
+        function selectQuizOption(optionDiv, isCorrect) {
+            if (selectedQuizOption !== null) return; // Already answered
+            
+            selectedQuizOption = isCorrect;
+            
+            // Show correct/incorrect styling
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                if (option === optionDiv) {
+                    option.classList.add(isCorrect ? 'correct' : 'incorrect');
+                } else if (option.textContent === currentSession[currentIndex].english) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            if (isCorrect) {
+                sessionScore.correct++;
+            } else {
+                sessionScore.wrong++;
+            }
+            
+            updateProgress();
+            document.getElementById('quizNextBtn').style.display = 'block';
+        }
+
+        function nextQuizQuestion() {
+            currentIndex++;
+            showQuizQuestion();
+        }
+
+        function updateProgress() {
+            const total = sessionScore.correct + sessionScore.wrong;
+            const percentage = total > 0 ? Math.round((sessionScore.correct / total) * 100) : 0;
+            document.getElementById('overallProgress').textContent = 
+                `Session: ${total}/${sessionSize} | Score: ${percentage}%`;
+        }
+
+        function showResults() {
+            const total = sessionScore.correct + sessionScore.wrong;
+            const percentage = Math.round((sessionScore.correct / total) * 100);
+            
+            document.getElementById('learningSession').classList.add('hidden');
+            document.getElementById('results').classList.remove('hidden');
+            
+            document.getElementById('sessionScore').textContent = 
+                `${sessionScore.correct}/${total} (${percentage}%)`;
+            
+            // Check for level advancement (75% threshold for quizzes)
+            if (activityType === 'quiz' && percentage >= 75 && userProgress[selectedLanguage].level === 'A1') {
+                userProgress[selectedLanguage].level = 'A2';
+                document.getElementById('cefrLevel').textContent = 'A2';
+                document.getElementById('levelUpMessage').classList.remove('hidden');
+            } else {
+                document.getElementById('levelUpMessage').classList.add('hidden');
+            }
+            
+            // Update overall progress
+            userProgress[selectedLanguage].progress += 10;
+        }
+
+        function newSession() {
+            showTopicSelection();
+        }
+
+        function hideAllSections() {
+            document.getElementById('languageSelection').classList.add('hidden');
+            document.getElementById('learningInterface').classList.add('hidden');
+        }
