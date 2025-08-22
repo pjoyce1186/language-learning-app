@@ -176,49 +176,178 @@
             border-color: #F97316;
         }
 
+        /* NEW FLASHCARD STYLES */
+        .flashcard-container {
+            position: relative;
+            margin: 30px auto;
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            perspective: 1000px;
+        }
+
+        .card-stack {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Background cards to create stack effect */
+        .card-stack::before,
+        .card-stack::after {
+            content: '';
+            position: absolute;
+            width: 95%;
+            height: 95%;
+            background: #f8f9fa;
+            border-radius: 20px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+            z-index: 1;
+        }
+
+        .card-stack::before {
+            top: 12px;
+            left: 2.5%;
+            transform: rotate(-2deg);
+            background: #e9ecef;
+        }
+
+        .card-stack::after {
+            top: 6px;
+            left: 2.5%;
+            transform: rotate(1deg);
+            background: #f1f3f4;
+        }
+
         .flashcard {
-            background: white;
-            border-radius: 15px;
-            padding: 60px 40px;
-            margin: 30px 0;
-            min-height: 300px;
+            position: relative;
+            background: linear-gradient(145deg, #ffffff 0%, #f8fafc 100%);
+            border-radius: 20px;
+            padding: 40px 30px;
+            width: 100%;
+            height: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 3px solid #E5E7EB;
-        }
-
-        .flashcard:hover {
-            transform: translateY(-5px);
-            border-color: #06B6D4;
+            transition: all 0.4s ease;
+            border: 2px solid #e2e8f0;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1), 0 5px 15px rgba(0,0,0,0.07);
+            z-index: 3;
+            position: relative;
+            transform-style: preserve-3d;
         }
 
         .flashcard.flipped {
-            background: #F0F9FF;
-            border-color: #06B6D4;
+            background: linear-gradient(145deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-color: #0ea5e9;
+            box-shadow: 0 20px 40px rgba(14, 165, 233, 0.2), 0 8px 20px rgba(14, 165, 233, 0.1);
+        }
+
+        .flashcard:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.15), 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        .card-number {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            background: rgba(29, 53, 87, 0.1);
+            color: #1D3557;
+            font-size: 0.9rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 2px solid rgba(29, 53, 87, 0.2);
         }
 
         .card-content {
-            font-size: 2rem;
-            font-weight: 600;
+            font-size: 2.4rem;
+            font-weight: 700;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            line-height: 1.2;
+            color: #1e293b;
         }
 
         .card-context {
-            font-size: 1rem;
-            color: #666;
+            font-size: 1.1rem;
+            color: #64748b;
             text-align: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            font-style: italic;
+            background: rgba(59, 130, 246, 0.1);
+            padding: 12px 20px;
+            border-radius: 25px;
+            border: 2px solid rgba(59, 130, 246, 0.2);
+            font-weight: 500;
         }
 
         .card-hint {
-            font-size: 0.9rem;
-            color: #999;
+            font-size: 1rem;
+            color: #94a3b8;
             text-align: center;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .pronunciation-btn {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 8px rgba(59, 130, 246, 0.2);
+        }
+
+        .pronunciation-btn:hover {
+            background: linear-gradient(135deg, #2563eb, #1d4ed8);
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .pronunciation-btn.speaking {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            animation: cardPulse 1s infinite;
+            box-shadow: 0 12px 25px rgba(245, 158, 11, 0.4);
+        }
+
+        .flip-btn {
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            padding: 15px 30px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(139, 92, 246, 0.3);
+            margin-top: auto;
+        }
+
+        .flip-btn:hover {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 25px rgba(139, 92, 246, 0.4);
+        }
+
+        @keyframes cardPulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
         }
 
         .action-buttons {
@@ -267,6 +396,14 @@
             .language-flags {
                 flex-direction: column;
                 align-items: center;
+            }
+            
+            .flashcard-container {
+                height: 350px;
+            }
+            
+            .card-content {
+                font-size: 2rem;
             }
         }
     </style>
@@ -357,10 +494,16 @@
 
             <!-- Learning Session -->
             <div id="learningSession" class="hidden">
-                <div class="flashcard" id="flashcard" onclick="flipCard()">
-                    <div class="card-content" id="cardContent">Click to start!</div>
-                    <div class="card-context" id="cardContext"></div>
-                    <div class="card-hint" id="cardHint">Click to see translation</div>
+                <div class="flashcard-container">
+                    <div class="card-stack">
+                        <div class="flashcard" id="flashcard">
+                            <div class="card-number" id="cardNumber">1 / 15</div>
+                            <div class="card-content" id="cardContent">Click to start!</div>
+                            <div class="card-context" id="cardContext"></div>
+                            <div class="card-hint" id="cardHint">Click to see translation</div>
+                            <button class="flip-btn" id="flipButton" onclick="flipCard()" style="display: none;">Flip Card</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="action-buttons" id="flashcardButtons" style="display: none;">
                     <button class="btn btn-correct" onclick="markCorrect()">✓ I knew this</button>
@@ -383,6 +526,63 @@
         let currentIndex = 0;
         let sessionScore = { correct: 0, wrong: 0 };
         let isFlipped = false;
+
+        // Audio synthesis setup
+        let speechSynthesis = window.speechSynthesis;
+        let currentUtterance = null;
+
+        // Language voice mapping
+        const languageVoices = {
+            spanish: 'es-ES',
+            french: 'fr-FR', 
+            italian: 'it-IT'
+        };
+
+        // Audio pronunciation function
+        function pronounceText(text, language, event) {
+            // Prevent the card from flipping when clicking the speaker button
+            if (event) {
+                event.stopPropagation();
+            }
+
+            // Stop any current speech
+            if (currentUtterance) {
+                speechSynthesis.cancel();
+            }
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = languageVoices[language] || 'en-US';
+            utterance.rate = 0.8; // Slightly slower for learning
+            utterance.pitch = 1;
+            utterance.volume = 1;
+
+            // Visual feedback
+            const button = document.querySelector('.pronunciation-btn');
+            if (button) {
+                button.classList.add('speaking');
+                button.innerHTML = '🔊';
+            }
+
+            utterance.onend = function() {
+                if (button) {
+                    button.classList.remove('speaking');
+                    button.innerHTML = '🔊';
+                }
+                currentUtterance = null;
+            };
+
+            utterance.onerror = function() {
+                if (button) {
+                    button.classList.remove('speaking');
+                    button.innerHTML = '🔊';
+                }
+                currentUtterance = null;
+                console.log('Speech synthesis error');
+            };
+
+            currentUtterance = utterance;
+            speechSynthesis.speak(utterance);
+        }
 
         const content = {
             spanish: {
@@ -501,9 +701,17 @@
             }
         };
 
-        // Functions
+        // Initialize app on page load
+        window.onload = function() {
+            showLanguageSelection();
+        };
+
+        function showLanguageSelection() {
+            hideAllSections();
+            document.getElementById('languageSelection').classList.remove('hidden');
+        }
+
         function selectLanguage(language) {
-            console.log("Language selected:", language);
             selectedLanguage = language;
             
             // Update visual selection
@@ -613,14 +821,75 @@
             const card = currentSession[currentIndex];
             const foreignText = card[selectedLanguage] || card.spanish || card.french || card.italian;
             
-            document.getElementById('cardContent').textContent = foreignText;
+            // Update card number
+            document.getElementById('cardNumber').textContent = `${currentIndex + 1} / ${currentSession.length}`;
+            
+            // Update card content with pronunciation button
+            document.getElementById('cardContent').innerHTML = `
+                <span>${foreignText}</span>
+                <button class="pronunciation-btn" onclick="pronounceText('${foreignText.replace(/'/g, "\\'")}', '${selectedLanguage}', event)" title="Listen to pronunciation">
+                    🔊
+                </button>
+            `;
+            
             document.getElementById('cardContext').textContent = card.context;
-            document.getElementById('cardHint').textContent = 'Click to see translation';
+            document.getElementById('cardHint').textContent = 'Click 🔊 to hear pronunciation • Click "Flip" to see translation';
             document.getElementById('flashcard').classList.remove('flipped');
             document.getElementById('flashcardButtons').style.display = 'none';
-            isFlipped = false;
             
+            // Show flip button, hide action buttons
+            document.getElementById('flipButton').style.display = 'block';
+            document.getElementById('flipButton').textContent = 'Flip Card';
+            
+            isFlipped = false;
             updateProgress();
+        }
+
+        function flipCard() {
+            if (isFlipped) return;
+            
+            const card = currentSession[currentIndex];
+            const englishText = card.english;
+            
+            // Update to show English translation with pronunciation for foreign text
+            const foreignText = card[selectedLanguage] || card.spanish || card.french || card.italian;
+            document.getElementById('cardContent').innerHTML = `
+                <span>${englishText}</span>
+                <button class="pronunciation-btn" onclick="pronounceText('${foreignText.replace(/'/g, "\\'")}', '${selectedLanguage}', event)" title="Listen to pronunciation">
+                    🔊
+                </button>
+            `;
+            
+            document.getElementById('cardHint').textContent = 'How did you do? • Click 🔊 to hear the foreign phrase again';
+            document.getElementById('flashcard').classList.add('flipped');
+            
+            // Hide flip button, show action buttons
+            document.getElementById('flipButton').style.display = 'none';
+            document.getElementById('flashcardButtons').style.display = 'flex';
+            
+            isFlipped = true;
+        }
+
+        function markCorrect() {
+            sessionScore.correct++;
+            updateProgress();
+        }
+
+        function markWrong() {
+            sessionScore.wrong++;
+            updateProgress();
+        }
+
+        function nextCard() {
+            currentIndex++;
+            showFlashcard();
+        }
+
+        function updateProgress() {
+            const total = sessionScore.correct + sessionScore.wrong;
+            const percentage = total > 0 ? Math.round((sessionScore.correct / total) * 100) : 0;
+            document.getElementById('overallProgress').textContent = 
+                `Session: ${total}/${sessionSize} | Score: ${percentage}%`;
         }
 
         function showSessionResults() {
@@ -680,10 +949,16 @@
             
             // Restore the original flashcard HTML
             document.getElementById('learningSession').innerHTML = `
-                <div class="flashcard" id="flashcard" onclick="flipCard()">
-                    <div class="card-content" id="cardContent">Click to start!</div>
-                    <div class="card-context" id="cardContext"></div>
-                    <div class="card-hint" id="cardHint">Click to see translation</div>
+                <div class="flashcard-container">
+                    <div class="card-stack">
+                        <div class="flashcard" id="flashcard">
+                            <div class="card-number" id="cardNumber">1 / 15</div>
+                            <div class="card-content" id="cardContent">Click to start!</div>
+                            <div class="card-context" id="cardContext"></div>
+                            <div class="card-hint" id="cardHint">Click to see translation</div>
+                            <button class="flip-btn" id="flipButton" onclick="flipCard()" style="display: none;">Flip Card</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="action-buttons" id="flashcardButtons" style="display: none;">
                     <button class="btn btn-correct" onclick="markCorrect()">✓ I knew this</button>
@@ -713,10 +988,16 @@
             
             // Restore original flashcard HTML for next session
             document.getElementById('learningSession').innerHTML = `
-                <div class="flashcard" id="flashcard" onclick="flipCard()">
-                    <div class="card-content" id="cardContent">Click to start!</div>
-                    <div class="card-context" id="cardContext"></div>
-                    <div class="card-hint" id="cardHint">Click to see translation</div>
+                <div class="flashcard-container">
+                    <div class="card-stack">
+                        <div class="flashcard" id="flashcard">
+                            <div class="card-number" id="cardNumber">1 / 15</div>
+                            <div class="card-content" id="cardContent">Click to start!</div>
+                            <div class="card-context" id="cardContext"></div>
+                            <div class="card-hint" id="cardHint">Click to see translation</div>
+                            <button class="flip-btn" id="flipButton" onclick="flipCard()" style="display: none;">Flip Card</button>
+                        </div>
+                    </div>
                 </div>
                 <div class="action-buttons" id="flashcardButtons" style="display: none;">
                     <button class="btn btn-correct" onclick="markCorrect()">✓ I knew this</button>
@@ -726,51 +1007,13 @@
             `;
         }
 
-        function flipCard() {
-            if (isFlipped) return;
-            
-            const card = currentSession[currentIndex];
-            document.getElementById('cardContent').textContent = card.english;
-            document.getElementById('cardHint').textContent = 'How did you do?';
-            document.getElementById('flashcard').classList.add('flipped');
-            document.getElementById('flashcardButtons').style.display = 'flex';
-            isFlipped = true;
-        }
-
-        function markCorrect() {
-            sessionScore.correct++;
-            updateProgress();
-        }
-
-        function markWrong() {
-            sessionScore.wrong++;
-            updateProgress();
-        }
-
-        function nextCard() {
-            currentIndex++;
-            showFlashcard();
-        }
-
-        function updateProgress() {
-            const total = sessionScore.correct + sessionScore.wrong;
-            const percentage = total > 0 ? Math.round((sessionScore.correct / total) * 100) : 0;
-            document.getElementById('overallProgress').textContent = 
-                `Session: ${total}/${sessionSize} | Score: ${percentage}%`;
-        }
-
-        function showLanguageSelection() {
-            document.getElementById('languageSelection').classList.remove('hidden');
+        function hideAllSections() {
+            document.getElementById('languageSelection').classList.add('hidden');
             document.getElementById('learningInterface').classList.add('hidden');
-            
-            // Reset selections
-            document.querySelectorAll('.selected').forEach(el => el.classList.remove('selected'));
-            selectedLanguage = null;
-            selectedTopic = null;
         }
 
         // Initialize
         console.log("App initialized!");
     </script>
 </body>
-</html>
+</html> "
